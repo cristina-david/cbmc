@@ -6,6 +6,7 @@ Author: Daniel Kroening, kroening@kroening.com
 
 \*******************************************************************/
 
+// #define DEBUG
 #ifdef DEBUG
 #include <iostream>
 #endif
@@ -1147,6 +1148,15 @@ codet java_bytecode_convert_methodt::convert_instructions(
             namespacet(symbol_table),
             get_message_handler());
       }
+    }
+    if(statement=="invokestatic" &&
+       id2string(arg0.get(ID_identifier))=="java::org.cprover.CProver.assume:(Z)V")
+    {
+      code_typet &code_type=to_code_type(arg0.type());
+      code_typet::parameterst &parameters(code_type.parameters());
+      exprt::operandst operands = pop(parameters.size());
+      const exprt& arg=operands.front();
+      c=code_assumet(arg);
     }
     else if(statement=="invokeinterface" ||
             statement=="invokespecial" ||
