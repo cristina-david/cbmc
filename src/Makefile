@@ -86,6 +86,9 @@ glucose-download:
 
 cprover-jar-build:
 	@echo "Building org.cprover.jar"
-	@(cd java_bytecode; jar cvf org.cprover.jar org; mv org.cprover.jar ../)
+	@cd java_bytecode
+	@javac org/cprover/CProver.java
+	@jar cvf org.cprover.jar org/cprover/CProver.class
+	@mv org.cprover.jar ../
 
 .PHONY: minisat2-download glucose-download cprover-jar-build
